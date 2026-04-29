@@ -1099,21 +1099,22 @@
 <body>
   <div class="app" id="app">
     <aside class="sidebar">
-      <a class="brand" href="#top">
-        <svg class="logo" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" style="width: 42px; height: 42px;">
+      <a class="brand" href="#top" style="padding: 0 0 24px; border-bottom: 1px solid var(--line); margin-bottom: 24px;">
+        <svg class="logo" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" style="width: 32px; height: 32px; flex-shrink: 0;">
           <defs>
             <linearGradient id="shieldGrad" x1="0%" y1="100%" x2="100%" y2="0%">
-              <stop offset="0%" style="stop-color:#2563eb;stop-opacity:1" />
-              <stop offset="40%" style="stop-color:#9333ea;stop-opacity:1" />
-              <stop offset="100%" style="stop-color:#f97316;stop-opacity:1" />
+              <stop offset="0%" style="stop-color:#3b82f6;" />
+              <stop offset="30%" style="stop-color:#8b5cf6;" />
+              <stop offset="60%" style="stop-color:#ec4899;" />
+              <stop offset="100%" style="stop-color:#f97316;" />
             </linearGradient>
           </defs>
-          <!-- Shield Body -->
           <path d="M60 10 L100 25 Q100 70 60 110 Q20 70 20 25 Z" fill="url(#shieldGrad)" />
-          <!-- Inner 'V' Fold -->
-          <path d="M45 40 L60 65 L75 40 L85 45 L60 85 L35 45 Z" fill="white" fill-opacity="0.9" />
+          <!-- Layered V for 3D effect -->
+          <path d="M40 45 L60 70 L80 45 L90 50 L60 90 L30 50 Z" fill="white" fill-opacity="0.85" />
+          <path d="M60 70 L80 45 L70 40 L60 55 L50 40 L40 45 Z" fill="black" fill-opacity="0.15" />
         </svg>
-        <span class="brand-copy"><strong>Notivro</strong><span>Academic Cloud</span></span>
+        <span class="brand-copy" style="margin-left: 12px;"><strong>Notivro</strong><span style="font-size: 10px; opacity: 0.6;">Notes Cloud</span></span>
       </a>
 
       <nav class="nav" aria-label="Primary">
@@ -1144,11 +1145,12 @@
     </aside>
 
     <main class="main" id="top">
-      <header class="topbar">
-        <a class="mobile-brand" href="#top" style="display:flex; align-items:center; gap:10px; text-decoration:none;">
+      <header class="topbar" style="grid-template-columns: auto 1fr auto; gap: 24px; align-items: center;">
+        <!-- Mobile Only Brand -->
+        <a class="mobile-only" href="#top" style="display:none; align-items:center; gap:10px; text-decoration:none;">
           <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" style="width: 32px; height: 32px;">
             <path d="M60 10 L100 25 Q100 70 60 110 Q20 70 20 25 Z" fill="url(#shieldGrad)" />
-            <path d="M45 40 L60 65 L75 40 L85 45 L60 85 L35 45 Z" fill="white" fill-opacity="0.9" />
+            <path d="M40 45 L60 70 L80 45 L90 50 L60 90 L30 50 Z" fill="white" fill-opacity="0.9" />
           </svg>
           <strong style="color:white; font-size:18px;">Notivro</strong>
         </a>
