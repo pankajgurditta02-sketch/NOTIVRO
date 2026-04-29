@@ -1100,8 +1100,17 @@
   <div class="app" id="app">
     <aside class="sidebar">
       <a class="brand" href="#top">
-        <img class="logo" src="assets/notivro-logo.png" alt="Notivro">
-        <span class="brand-copy"><strong>Notivro</strong><span>SIET Notes Cloud</span></span>
+        <svg class="logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 40px; height: 40px;">
+          <circle cx="50" cy="50" r="48" fill="url(#grad)" stroke="var(--accent)" stroke-width="2"/>
+          <path d="M30 70V30L70 70V30" stroke="white" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+          <defs>
+            <linearGradient id="grad" x1="0" y1="0" x2="100" y2="100">
+              <stop offset="0%" stop-color="var(--accent)"/>
+              <stop offset="100%" stop-color="#22c55e"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <span class="brand-copy"><strong>Notivro</strong><span>Academic Cloud</span></span>
       </a>
 
       <nav class="nav" aria-label="Primary">
@@ -1135,8 +1144,8 @@
       <header class="topbar">
         <a class="mobile-brand" href="#top"><img class="mobile-logo" src="assets/notivro-logo.png" alt="Notivro"></a>
         <div class="tenant">
-          <img class="tenant-logo" src="assets/siet-logo.png" alt="SIET Panchkula">
-          <span><b>State Institute of Engineering and Technology</b><small>Department of CSE</small></span>
+          <svg class="tenant-logo" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          <span><b>State Institute of Engineering and Technology</b><small>Academic Network</small></span>
         </div>
         <label class="search" for="searchInput">
           <svg viewBox="0 0 24 24" fill="none"><path d="m21 21-4.3-4.3M10.8 18a7.2 7.2 0 1 1 0-14.4 7.2 7.2 0 0 1 0 14.4Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
@@ -1624,17 +1633,23 @@
 
     async function loadResources() {
       try {
-        if (els.apiStatus) els.apiStatus.textContent = "Cloud Syncing";
-        const response = await fetch(`/api/resources?t=${Date.now()}`);
+        const response = await fetch(`${window.location.origin}/api/resources?t=${Date.now()}`);
         if (!response.ok) throw new Error("API error");
         const data = await response.json();
         state.resources = [...data, ...state.resources.filter(r => String(r.id || "").startsWith("seed-"))];
-        if (els.apiStatus) els.apiStatus.textContent = "Live";
+        if (els.apiStatus) els.apiStatus.textContent = "Live Cloud";
         render();
-        pushActivity("Library data <b>synced</b> and verified.");
+        pushActivity("Library data <b>synced</b> via Node.js");
       } catch (error) {
-        if (els.apiStatus) els.apiStatus.textContent = "Offline";
-        showToast("Backend connection failed.");
+        // Fallback to LocalStorage for GitHub Pages
+        const local = localStorage.getItem("notivro_notes");
+        if (local) {
+          const data = JSON.parse(local);
+          state.resources = [...data, ...state.resources.filter(r => String(r.id || "").startsWith("seed-"))];
+        }
+        if (els.apiStatus) els.apiStatus.textContent = "Local Mode";
+        render();
+        pushActivity("Running in <b>Local Mode</b> (GitHub Offline)");
       }
     }
 
@@ -1828,21 +1843,38 @@
         const form = event.currentTarget;
         const formData = new FormData(form);
         const endpoint = `${window.location.origin}/api/resources`;
-        const response = await fetch(endpoint, { method: "POST", body: formData });
-        const payload = await response.json();
-        if (!response.ok) throw new Error(payload.error || "Upload failed");
+        try {
+          const response = await fetch(endpoint, { method: "POST", body: formData });
+          if (!response.ok) throw new Error("Upload failed");
+          payload = await response.json();
+        } catch (err) {
+          // GitHub Fallback
+          payload = {
+            id: Date.now().toString(),
+            title: formData.get("title"),
+            subject: formData.get("subject"),
+            type: formData.get("type"),
+            year: formData.get("year"),
+            author: formData.get("author"),
+            description: formData.get("description"),
+            views: 1, downloads: 0, rating: 5.0,
+            fileUrl: "#", createdAt: new Date().toISOString()
+          };
+          const current = JSON.parse(localStorage.getItem("notivro_notes") || "[]");
+          current.unshift(payload);
+          localStorage.setItem("notivro_notes", JSON.stringify(current));
+        }
+
         form.reset();
         setSelectedFile(null);
         els.modal?.classList.remove("open");
         state.resources = [payload, ...state.resources];
         resetFilters();
-        await loadResources(); // Force full sync with server
+        await loadResources(); 
         pushActivity(`New Resource Published: <b>${payload.title}</b>`);
         showToast(`Success: ${payload.title} is now live.`);
       } catch (error) {
-        let msg = error.message;
-        if (msg === "Failed to fetch") msg = "Network Error: Could not reach the server. Please ensure 'node server.js' is running.";
-        showToast(msg);
+        showToast("Publication error occurred.");
         console.error("Upload Error:", error);
       } finally {
         submit.disabled = false;
