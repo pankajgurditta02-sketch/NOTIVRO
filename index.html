@@ -1099,22 +1099,9 @@
 <body>
   <div class="app" id="app">
     <aside class="sidebar">
-      <a class="brand" href="#top" style="padding: 0 0 24px; border-bottom: 1px solid var(--line); margin-bottom: 24px;">
-        <svg class="logo" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" style="width: 32px; height: 32px; flex-shrink: 0;">
-          <defs>
-            <linearGradient id="shieldGrad" x1="0%" y1="100%" x2="100%" y2="0%">
-              <stop offset="0%" style="stop-color:#3b82f6;" />
-              <stop offset="30%" style="stop-color:#8b5cf6;" />
-              <stop offset="60%" style="stop-color:#ec4899;" />
-              <stop offset="100%" style="stop-color:#f97316;" />
-            </linearGradient>
-          </defs>
-          <path d="M60 10 L100 25 Q100 70 60 110 Q20 70 20 25 Z" fill="url(#shieldGrad)" />
-          <!-- Layered V for 3D effect -->
-          <path d="M40 45 L60 70 L80 45 L90 50 L60 90 L30 50 Z" fill="white" fill-opacity="0.85" />
-          <path d="M60 70 L80 45 L70 40 L60 55 L50 40 L40 45 Z" fill="black" fill-opacity="0.15" />
-        </svg>
-        <span class="brand-copy" style="margin-left: 12px;"><strong>Notivro</strong><span style="font-size: 10px; opacity: 0.6;">Notes Cloud</span></span>
+      <a class="brand" href="#top" style="display: flex; align-items: center; gap: 12px; padding: 10px 0 30px; text-decoration: none;">
+        <img src="assets/notivro-logo.png" alt="Notivro" style="width: 38px; height: 38px; object-fit: contain;">
+        <strong style="color: white; font-size: 22px; letter-spacing: -0.02em;">Notivro</strong>
       </a>
 
       <nav class="nav" aria-label="Primary">
@@ -1145,18 +1132,13 @@
     </aside>
 
     <main class="main" id="top">
-      <header class="topbar" style="grid-template-columns: auto 1fr auto; gap: 24px; align-items: center;">
-        <!-- Mobile Only Brand -->
-        <a class="mobile-only" href="#top" style="display:none; align-items:center; gap:10px; text-decoration:none;">
-          <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" style="width: 32px; height: 32px;">
-            <path d="M60 10 L100 25 Q100 70 60 110 Q20 70 20 25 Z" fill="url(#shieldGrad)" />
-            <path d="M40 45 L60 70 L80 45 L90 50 L60 90 L30 50 Z" fill="white" fill-opacity="0.9" />
-          </svg>
-          <strong style="color:white; font-size:18px;">Notivro</strong>
-        </a>
-        <div class="tenant">
-          <svg class="tenant-logo" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
-          <span><b>State Institute of Engineering and Technology</b><small>Academic Network</small></span>
+      <header class="topbar" style="display: grid; grid-template-columns: auto 1fr auto; gap: 20px; align-items: center; padding: 20px 0;">
+        <div class="tenant" style="display: flex; align-items: center; gap: 15px; padding: 10px 18px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px;">
+          <img src="assets/siet-logo.png" alt="SIET" style="width: 40px; height: 40px; object-fit: contain;">
+          <div>
+            <b style="display: block; font-size: 13px; color: white;">State Institute of Engineering and Technology</b>
+            <small style="display: block; font-size: 10px; color: var(--soft); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 2px;">DEPARTMENT OF CSE</small>
+          </div>
         </div>
         <label class="search" for="searchInput">
           <svg viewBox="0 0 24 24" fill="none"><path d="m21 21-4.3-4.3M10.8 18a7.2 7.2 0 1 1 0-14.4 7.2 7.2 0 0 1 0 14.4Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
