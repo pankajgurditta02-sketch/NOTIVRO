@@ -1,0 +1,17 @@
+{
+  "name": "notivro-notes-cloud",
+  "version": "1.0.0",
+  "description": "Futuristic notes sharing SaaS for SIET Panchkula with a Node.js upload backend.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "notes",
+    "saas",
+    "student",
+    "uploads"
+  ],
+  "author": "Notivro",
+  "license": "MIT"
+}
